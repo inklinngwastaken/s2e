@@ -106,14 +106,12 @@
   </div>
 
   <script>
-    // --- Switch 2 release date ---
-    const releaseDate = new Date("2025-09-14"); // example date, adjust if needed
+    const releaseDate = new Date("2025-06-04");
     const today = new Date();
     const diffTime = today - releaseDate;
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     document.getElementById("daysCounter").textContent = diffDays;
 
-    // --- Emulator handling ---
     const emulatorForm = document.getElementById("emulatorForm");
     const emulatorList = document.getElementById("emulators");
 
