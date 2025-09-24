@@ -1,9 +1,6 @@
-// 🔹 Replace these with your Supabase values
-const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
-const SUPABASE_KEY = "YOUR-ANON-KEY";
-
-// Days counter (Switch 2 release date example: Sept 12, 2025)
-const releaseDate = new Date("2025-09-12");
+const SUPABASE_URL = "https://ffthzdqohddlgewbotwu.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdGh6ZHFvaGRkbGdld2JvdHd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MzYxMjUsImV4cCI6MjA3NDMxMjEyNX0.KEFDQSbeTs3Sl0kwHoPMod2YfAgNCZuvHHfw0L75A8o";
+const releaseDate = new Date("2025-06-05");
 function updateDaysCounter() {
   const now = new Date();
   const diff = Math.floor((now - releaseDate) / (1000 * 60 * 60 * 24));
