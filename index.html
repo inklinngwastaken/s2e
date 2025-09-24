@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nintendo Switch 2 Emulator Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f9;
+      color: #333;
+    }
+    header {
+      background: #e60012;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 1rem;
+    }
+    .counter {
+      text-align: center;
+      background: white;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .emulator-list, .dashboard {
+      background: white;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .emulator {
+      border-bottom: 1px solid #ddd;
+      padding: 0.5rem 0;
+    }
+    .emulator:last-child {
+      border-bottom: none;
+    }
+    .emulator h3 {
+      margin: 0 0 0.5rem;
+    }
+    .features label {
+      display: block;
+      margin: 0.2rem 0;
+    }
+    form input, form select, form button, form textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    form button {
+      background: #e60012;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    form button:hover {
+      background: #c0000f;
+    }
+    @media (max-width: 600px) {
+      .features label {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Nintendo Switch 2 Emulator Dashboard</h1>
+  </header>
+
+  <div class="container">
+    <div class="counter">
+      <h2>Days since Nintendo Switch 2 Release:</h2>
+      <p id="daysCounter">0</p>
+    </div>
+
+    <div class="emulator-list">
+      <h2>Emulator List</h2>
+      <div id="emulators"></div>
+    </div>
+
+    <div class="dashboard">
+      <h2>Add New Emulator</h2>
+      <form id="emulatorForm">
+        <input type="text" id="emulatorName" placeholder="Emulator Name" required>
+        <textarea id="emulatorFeatures" placeholder="Features (comma separated)"></textarea>
+        <select id="emulatorStatus">
+          <option value="WIP">Work in Progress</option>
+          <option value="Done">Done</option>
+        </select>
+        <button type="submit">Add Emulator</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // --- Switch 2 release date ---
+    const releaseDate = new Date("2025-09-14"); // example date, adjust if needed
+    const today = new Date();
+    const diffTime = today - releaseDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    document.getElementById("daysCounter").textContent = diffDays;
+
+    // --- Emulator handling ---
+    const emulatorForm = document.getElementById("emulatorForm");
+    const emulatorList = document.getElementById("emulators");
+
+    let emulators = [];
+
+    function renderEmulators() {
+      emulatorList.innerHTML = "";
+      emulators.forEach((emu, index) => {
+        const div = document.createElement("div");
+        div.className = "emulator";
+        div.innerHTML = `
+          <h3>${emu.name} <small>(${emu.status})</small></h3>
+          <div class="features">
+            ${emu.features.map((f, i) => `
+              <label>
+                <input type="checkbox" ${f.done ? "checked" : ""} data-emu="${index}" data-feature="${i}">
+                ${f.name} (${f.done ? "Done" : "WIP"})
+              </label>
+            `).join("")}
+          </div>
+        `;
+        emulatorList.appendChild(div);
+      });
+    }
+
+    emulatorForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const name = document.getElementById("emulatorName").value;
+      const features = document.getElementById("emulatorFeatures").value.split(",").map(f => ({ name: f.trim(), done: false })).filter(f => f.name);
+      const status = document.getElementById("emulatorStatus").value;
+
+      emulators.push({ name, features, status });
+      renderEmulators();
+      emulatorForm.reset();
+    });
+
+    emulatorList.addEventListener("change", e => {
+      if (e.target.type === "checkbox") {
+        const emuIndex = e.target.getAttribute("data-emu");
+        const featIndex = e.target.getAttribute("data-feature");
+        emulators[emuIndex].features[featIndex].done = e.target.checked;
+        renderEmulators();
+      }
+    });
+  </script>
+</body>
+</html>
