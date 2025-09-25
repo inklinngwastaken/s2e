@@ -1,4 +1,4 @@
-const API_URL = "https://be0d32288d53.ngrok-free.app"; 
+const API_URL = "https://9369fcad76d7.ngrok-free.app"; 
 
 async function loadEmulators() {
   try {
